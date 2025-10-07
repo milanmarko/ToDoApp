@@ -8,7 +8,7 @@
     Title="ToDoApp">
 
     <ShellContent
-        Title="Home"
+        Title="Határidőnapló"
         ContentTemplate="{DataTemplate local:MainPage}"
         Route="MainPage" />
 

@@ -8,7 +8,7 @@ namespace ToDoApp.Models
 {
     public class ToDo
     {
-        private static int id = 0;
+        private static int id = 1;
         public int ID { get; set; } = getID();
         public string Title { get; set; } = "";
         public DateTime Deadline { get; set; } = DateTime.Now;

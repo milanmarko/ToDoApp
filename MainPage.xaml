@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ToDoApp.MainPage" xmlns:models="clr-namespace:ToDoApp.Models" xmlns:vm="clr-namespace:ToDoApp.ViewModels" xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit" x:Name="wind">
+             x:Class="ToDoApp.MainPage" xmlns:models="clr-namespace:ToDoApp.Models" xmlns:vm="clr-namespace:ToDoApp.ViewModels" xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit" x:Name="wind"
+             Shell.BackgroundColor="{x:StaticResource Primary}" Shell.TitleColor="{x:StaticResource Secondary}"
+    >
     <ContentPage.Resources>
         <Style x:Key="formLabel" TargetType="Label">
             <Setter Property="HorizontalOptions" Value="Start"/>
@@ -10,17 +12,21 @@
             <Setter Property="FontAttributes" Value="Bold"/>
         </Style>
     </ContentPage.Resources>
+    <ContentPage.Behaviors>
+            <toolkit:StatusBarBehavior StatusBarStyle="LightContent" StatusBarColor="{StaticResource Primary}" />
+       
+    </ContentPage.Behaviors>
     <VerticalStackLayout x:DataType="vm:MainViewModel" Padding="20"  VerticalOptions="Fill">
             <Grid RowDefinitions="*,*,*" ColumnDefinitions="*,*" RowSpacing="10" ColumnSpacing="10">
                 <Label Style="{StaticResource formLabel}" Text="Leírás: " />
                 <Entry Text="{Binding NewToDo.Title}" Grid.Row="1" />
                 <Label Style="{StaticResource formLabel}" Text="Határidő: " Grid.Column="1" />
                 <DatePicker Date="{Binding NewToDo.Deadline}" Grid.Column="1" Grid.Row="1" />
-                <Button Text="Hozzáadás" Grid.Row="2" Command="AddNewToDoCommand" />
-                <Button Text="Kész teendők törlése" Grid.Row="2" Grid.Column="1" />
+            <Button Text="Hozzáadás" Grid.Row="2" Command="{Binding AddNewToDoCommand}" />
+            <Button Text="Kész teendők törlése" Command="{Binding DeleteDoneToDosCommand}" Grid.Row="2" Grid.Column="1" />
             </Grid>
             <VerticalStackLayout>
-                <BoxView HeightRequest="2" Margin="20 0 0 0" Color="Black" />
+                <BoxView HeightRequest="2" Margin="20" Color="Black" />
                 <Label Text="Teendőim" FontSize="30" VerticalOptions="Center" HorizontalOptions="Center" FontAttributes="Bold" Margin="20" />
             </VerticalStackLayout>
             <ScrollView>
@@ -28,14 +34,14 @@
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="models:ToDo">
                                 <ViewCell>
-                                    <Grid ColumnDefinitions="8, 1" RowDefinitions="*,*">
+                                    <Grid ColumnDefinitions="8*, 1*" RowDefinitions="*,*">
                                         <Label Text="{Binding Title}"  />
                                         <CheckBox IsChecked="{Binding Done}" Grid.Column="2" Grid.RowSpan="2">
-                                            <CheckBox.Behaviors>
+                                            <!--<CheckBox.Behaviors>
                                                 <toolkit:EventToCommandBehavior EventName="CheckedChanged" CommandParameter="{Binding ID}" Command="{Binding VM.ToggleDoneCommand,  Source={x:Reference wind}}" />
-                                            </CheckBox.Behaviors>
+                                            </CheckBox.Behaviors>-->
                                         </CheckBox>
-                                        <Label Text="{Binding Deadline.Date}" Grid.Row="1" />
+                                        <Label Text="{Binding Deadline.Date, StringFormat='{0:yyyy-MM-dd}'}" Grid.Row="1" />
                                     </Grid>
                                 </ViewCell>
                             </DataTemplate>
